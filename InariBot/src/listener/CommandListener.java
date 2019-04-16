@@ -1,56 +1,84 @@
 package listener;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Random;
 
 import bot.Ref;
 import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import utils.TextFileEditor;
 
 public class CommandListener extends ListenerAdapter{
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
-		if (event.isFromType(ChannelType.PRIVATE))
+		User author = event.getAuthor();
+		Guild server = event.getGuild();
+		MessageChannel channel = event.getChannel();
+
+		// Listen in on specific messages
+		if(event.isFromType(ChannelType.PRIVATE))
 		{
-			System.out.printf("[Private Message] %s: %s\n", event.getAuthor().getName(),
-					event.getMessage().getContentDisplay());
+			File chatFile = new File(this.getClass().getClassLoader().getResource("chatlog.txt").getFile());
+			String line = "{"+LocalTime.now()+" "+LocalDate.now()+"} "
+					+"[Private Message] "
+					+event.getAuthor().getName()+": "
+					+event.getMessage().getContentDisplay();
+			TextFileEditor.writeLineInFile(line, chatFile);
+			System.out.println(line);
 		}
 		else
 		{
-			System.out.printf("[%s][%s] %s: %s\n", event.getGuild().getName(),
-					event.getTextChannel().getName(), event.getMember().getEffectiveName(),
-					event.getMessage().getContentDisplay());
+			File chatFile = new File(this.getClass().getClassLoader().getResource("chatlog.txt").getFile());
+			String line = "{"+LocalTime.now()+" "+LocalDate.now()+"} "
+					+"["+event.getGuild().getName()+"]"
+					+" ["+channel.getName()+"] "
+					+event.getMember().getEffectiveName()+": "+
+					event.getMessage().getContentDisplay();
+			TextFileEditor.writeLineInFile(line, chatFile);
+			System.out.println(line);
 		}
-		
+
 		// Check for commands
 		String[] commands = event.getMessage().getContentRaw().split(" ");
 		if(commands[0].startsWith(Ref.botPrefix)) {
 			String command = commands[0].substring(1);
-			
+
 			// help command. Sends list of commands to chat.
 			if(command.equals("help")) {
-				event.getTextChannel().sendMessage(Ref.helpText).queue();
+				System.out.println("help command invoked by a user.");
+				channel.sendMessage(Ref.helpText).queue();
 			}
-			
+
 			// dice command. Sends a random number between 1 and 6.
 			if(command.equals("dice")) {
+				System.out.println("dice command invoked by a user.");
 				Random rnd = new Random();
-				event.getTextChannel().sendMessage("Inari Bot has rolled a "+(rnd.nextInt(6)+1)+".").queue();
+				channel.sendMessage("Inari Bot has rolled a "+(rnd.nextInt(6)+1)+".").queue();
 			}
-			
-			// 8ball command. Replies with yes or no answers to a message.
-			if(command.equals("8ball")) {
-				if(commands.length == 1) {
-					event.getTextChannel().sendMessage("You didn't ask any question. Try again.").queue();
-				} else {
-					String response = Ref.eightBallResponses[new Random().nextInt(Ref.eightBallResponses.length)];
-					event.getTextChannel().sendMessage(response).queue();
+
+			// profilepic command. Grabs the profile picture of a user.
+			if(command.equals("profilepic")) {
+				System.out.print("profilepic command invoked by a user");
+				if(commands.length < 2) {
+					channel.sendMessage("Not enough arguments.").queue();
 				}
-				
+				String user = commands[1].toLowerCase();
+				System.out.println(" on the search: "+user);
+				for(Member member:server.getMembers()) {
+					if(member.getEffectiveName().toLowerCase().contains(user)) {
+						System.out.println("Found a user: "+member.getEffectiveName());
+						channel.sendMessage(member.getUser().getAvatarUrl()).queue();
+					}
+				}
 			}
 		}
-		
 	}	
-
 }

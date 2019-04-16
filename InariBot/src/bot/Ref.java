@@ -1,29 +1,34 @@
 package bot;
 
+import java.io.File;
+import java.util.List;
+
+import utils.TextFileEditor;
+
 public class Ref {
-	public static final String botToken = "NDMzMTc4MjY5NjI2NDAwNzY4.DyygnQ.wmDqYn0S1295J2OcgqPVdE-bqLw";
-	public static String botPrefix = "^";
-	public static String[] eightBallResponses = 
-		{
-				"No.",
-				"I don't think so.",
-				"The answer to your question is no.",
-				"Nuh-uh.",
-				"Absolutely not.",
-				"Err, maybe not.",
-				"I'm leaning towards a no.",
-				"Yes.",
-				"Sure.",
-				"I think maybe.",
-				"Of course.",
-				"Without a doubt.",
-				"I'm leaning towards a yes.",
-				"It's obvious."
-		};
-	public static final String helpText = 
-	"Welcome to InariBot!\n"
-	+ "Here is a list of all of the commands:\n"
-	+ "	"+botPrefix+"help: Lists out all of the commands.\n"
-	+ "	"+botPrefix+"dice: Rolls a dice.\n"
-	+ "	"+botPrefix+"8ball: Responds yes or no to a question.\n";
+	public static String botToken = "";
+	public static String botPrefix = "";
+	public static String helpText = "";
+	
+	public static void initializeRef() {
+		File referenceFile = new File(Ref.class.getClassLoader().getResource("reference.txt").getFile());
+		File helpFile = new File(Ref.class.getClassLoader().getResource("help.txt").getFile());
+		
+		List<String> reference = TextFileEditor.getTextFileAsList(referenceFile);
+		
+		botToken = reference.get(0).split("=")[1];
+		System.out.println("Bot token is initialized: "+botToken);
+		
+		botPrefix = reference.get(1).split("=")[1];
+		System.out.println("Bot prefix is initialized: "+botPrefix);
+		
+		// Put all contents of help.txt in helpText.
+		List<String> helpList = TextFileEditor.getTextFileAsList(helpFile);
+		for(int i = 0; i < helpList.size(); i++) {
+			helpText += helpList.get(i).replaceAll("\\[prefix\\]", botPrefix) + "\n";
+		}
+		System.out.println("Help text is initialized: "+helpText);
+		
+		
+	}
 }

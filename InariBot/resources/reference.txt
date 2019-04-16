@@ -1,0 +1,2 @@
+botToken=NDMzMTc4MjY5NjI2NDAwNzY4.DyygnQ.wmDqYn0S1295J2OcgqPVdE-bqLw
+botPrefix=^
