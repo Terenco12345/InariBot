@@ -3,7 +3,6 @@ package listener;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
-import view.swingwindows.MainMenuWindow;
 
 public class ReadyListener implements EventListener{
 
@@ -13,5 +12,4 @@ public class ReadyListener implements EventListener{
 			System.out.println("Bot is ready!");
 		}
 	}
-	
 }

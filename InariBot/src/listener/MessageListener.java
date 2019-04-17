@@ -20,7 +20,7 @@ public class MessageListener extends ListenerAdapter{
 		// Listen in on specific messages
 		if(event.isFromType(ChannelType.PRIVATE))
 		{
-			File chatFile = new File(this.getClass().getClassLoader().getResource("chatlog.txt").getFile());
+			File chatFile = new File("./config/chatlog.txt");
 			String line = "{"+LocalTime.now()+" "+LocalDate.now()+"} "
 					+"[Private Message] "
 					+event.getAuthor().getName()+": "

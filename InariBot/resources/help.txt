@@ -1,5 +1,0 @@
-Before typing any command, please prefix it with [prefix].
-Example: [prefix]kick [Username]
-The commands that are available are:
-	[prefix]help
-	[prefix]giveadmin [username]

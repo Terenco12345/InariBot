@@ -18,7 +18,6 @@ public class InariBot{
 		
 		jda = new JDABuilder(Ref.botToken)
 				.addEventListeners(new ReadyListener())
-				.addEventListeners(new CommandListener())
 				.addEventListeners(new MessageListener())
 				.build();
 		jda.awaitReady();
