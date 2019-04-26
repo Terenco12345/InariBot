@@ -166,6 +166,14 @@ public class MainMenuWindow {
 			}			
 		});
 		buttonPanel.add(spamHundredButton);
+		
+		JButton sendInviteButton = new JButton("Send Invite");
+		sendInviteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				sendInvite();
+			}
+		});
+		buttonPanel.add(sendInviteButton);
 
 		JPanel mainPanel = new JPanel();
 		InariBotFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
@@ -406,5 +414,12 @@ public class MainMenuWindow {
 		for(int i = 0; i < 100; i++) {
 			sendMessage(textField.getText());
 		}
+	}
+	
+	/**
+	 * Sends an invite to a server of user's choice to a specific user.
+	 */
+	public void sendInvite() {
+		new ServerInviteWindow();
 	}
 }
