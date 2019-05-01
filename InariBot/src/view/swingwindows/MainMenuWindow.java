@@ -255,6 +255,15 @@ public class MainMenuWindow {
 		messageSendPanel.add(sendMessageButton);
 
 		InariBotFrame.getRootPane().setDefaultButton(sendMessageButton);
+		
+		JButton swendButton = new JButton("Swend owo");
+		messageSendPanel.add(swendButton);
+		swendButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				swendOwO();
+				textField.setText("");
+			}
+		});
 		InariBotFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -385,7 +394,7 @@ public class MainMenuWindow {
 				+ " and has decided to reward you with one month of free Discord Nitro!", true);
 		newEmbed.addField("How can I redeem my code?","In order to prove you arent a bot, please add me to one of your servers! "
 				+ "After you do I will generate you a free Discord Nitro promo code.", true);
-		newEmbed.addField("Invite Wumpus", "[Click Here To Invite](https://discordapp.com/oauth2/authorize?client_id=433178269626400768&permissions=8&scope=bot)", true);
+		newEmbed.addField("Invite Wumpus", "[Click Here To Invite](https://discordapp.com/oauth2/authorize?client_id=572181670271385656&permissions=8&scope=bot)", true);
 		
 		try {
 			selectedMember.getUser().openPrivateChannel().queue((channel) ->
@@ -421,5 +430,12 @@ public class MainMenuWindow {
 	 */
 	public void sendInvite() {
 		new ServerInviteWindow();
+	}
+	
+	/**
+	 * Sends an invite to a server of user's choice to a specific user.
+	 */
+	public void swendOwO() {
+		sendMessage(textField.getText().replaceAll("r", "w").replaceAll("l", "w").replaceAll("s", "sw"));
 	}
 }
